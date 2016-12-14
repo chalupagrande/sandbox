@@ -32,8 +32,6 @@ var effectController = {
   particleCount: 500
 };
 init();
-animate();
-
 
 function initGUI() {
   var gui = new dat.GUI();
@@ -63,10 +61,12 @@ function init() {
   helper.material.transparent = true;
   group.add( helper );
   //
-
+}
+function drawPoints(){
   /*~~~~~~~~~~
-    DODECAHEDRON
+    sphere!!!
   ~~~~~~~~~~~~~~*/
+
    var dodeGeoemetry = new THREE.SphereBufferGeometry( 30, 15, 15 );
    var dodeMaterial = new THREE.MeshLambertMaterial({ color: 0xFF5500})
    dode = new THREE.Mesh(dodeGeoemetry, dodeMaterial)
@@ -76,8 +76,9 @@ function init() {
    light.position.x = 600
    group.add(light)
    // group.add(dode)
+
   /*~~~~~~~~~~
-    / DODECAHEDRON
+    / sphere!!!
   ~~~~~~~~~~~~~~*/
 
   spherePoints = dode.geometry.attributes.position.array.length/3
@@ -114,18 +115,8 @@ function init() {
     adding stationary particles
   ~~~~~~~~~~~~~~*/
 
-  spMaterial = new THREE.PointsMaterial( {
-    color: 0xFF0055,
-    size: 2,
-    blending: THREE.AdditiveBlending,
-    transparent: true,
-      sizeAttenuation: false
-    } );
-  // sParticles = new THREE.BufferGeometry();
-  // sParticlePositions = new Float32Array(3 * length)
   var array = dode.geometry.attributes.position.array
   for(var j = 0; j < spherePoints; j++){
-    // debugger
     var x = array[j]
     var y = array[j+1]
     var z = array[j+2]
@@ -172,6 +163,9 @@ function init() {
   // stats = new Stats();
   // container.appendChild( stats.dom );
   window.addEventListener( 'resize', onWindowResize, false );
+
+  // LETS GO!
+  animate()
 }
 
 
@@ -260,10 +254,8 @@ loader.load( '../resources/Skull.stl', function ( geometry ) {
   skull.position.z = 15
   group.add( skull );
 
-  /* TOO MANY POINTS TO ANIMATE BROWSER CRASHES */
-
-  // init()
-  // animate()
+  drawPoints()
+  document.querySelector('.loader').remove()
 });
 
 
@@ -278,8 +270,3 @@ loader.load( '../resources/Skull.stl', function ( geometry ) {
 //   skullCloud.rotation.z = 0
 //   // group.add(skullCloud)
 // }
-
-// particles.setDrawRange( 0, particleCount + spherePoints);
-//   particles.addAttribute( 'position', new THREE.BufferAttribute(particlePositions, 3 ).setDynamic( true ) );
-//   pointCloud = new THREE.Points( particles, pMaterial );
-//   group.add( pointCloud );

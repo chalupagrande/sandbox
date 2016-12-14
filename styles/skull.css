@@ -1,0 +1,23 @@
+body {
+  margin: 0;
+  padding: 0;
+  color: white;
+  font-family: Helvetica;
+}
+
+circle {
+  fill: none;
+  stroke: black;
+  stroke-width: 5px;
+  stroke-dasharray: 30 500;
+  transform-origin: 50% 50%;
+  animation: loaderSpin 1s infinite linear;
+}
+svg {
+  width: 100vw;
+  height: 100vh;
+}
+
+@keyframes loaderSpin {
+  to {transform: rotate(360deg);}
+}
