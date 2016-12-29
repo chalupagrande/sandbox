@@ -239,7 +239,7 @@ function render() {
 
 
 var loader = new THREE.STLLoader();
-loader.load( '../resources/Skull.stl', function ( geometry ) {
+loader.load( '../resources/skull/Skull.stl', function ( geometry ) {
   var material = new THREE.MeshPhongMaterial( { color: 0xffffff, specular: 0x111111, shininess: 200, wireframe: true } );
   var mesh = new THREE.Mesh( geometry, material );
   mesh.position.set( 0, - 0.25, 0.6 );
