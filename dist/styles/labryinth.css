@@ -1,0 +1,32 @@
+body {
+  margin: 0;
+  padding: 0; }
+
+svg {
+  width: 100vw;
+  height: 100vh; }
+
+circle, path {
+  fill: none;
+  stroke: black; }
+
+path {
+  transform: rotate(-90deg) translate(-50vh, 50vw); }
+
+line {
+  stroke: black;
+  transition: stroke-dashoffset 1s;
+  transform-origin: 50% 50%; }
+
+.finish {
+  stroke-dashArray: 10 100; }
+
+input[type=range] {
+  width: 100%; }
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg); } }
+
+.controls {
+  display: flex; }

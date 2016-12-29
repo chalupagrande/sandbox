@@ -1,0 +1,34 @@
+body {
+  margin: 0;
+  padding: 0;
+  color: white;
+  font-family: Helvetica;
+  background-color: black; }
+
+circle {
+  fill: none;
+  stroke: white;
+  stroke-width: 5px;
+  stroke-dasharray: 150 500;
+  transform-origin: 50% 50%; }
+
+.one {
+  animation: loaderSpin 1s infinite linear reverse; }
+
+.two {
+  animation: loaderSpin 2s infinite linear alternate-reverse; }
+
+.three {
+  animation: loaderSpin 1.5s infinite linear; }
+
+.loader {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center; }
+
+@keyframes loaderSpin {
+  to {
+    transform: rotate(360deg); } }
