@@ -14,9 +14,14 @@ circle, path {
   stroke: black;
   // animation: rotate 10s infinite linear;
 }
+circle {
+  transform-origin: 50% 50%;
+  transform: rotate(-90deg);
+}
 path {
   transform: rotate(-90deg) translate(-50vh, 50vw);
 }
+
 // @for $i from 1 through $numRings {
 //   path, circle {
 //     &:nth-child(#{$i}) {
@@ -24,6 +29,8 @@ path {
 //     }
 //   }
 // }
+
+
 line {
   stroke: black;
   transition: stroke-dashoffset 1s;

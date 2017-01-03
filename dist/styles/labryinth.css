@@ -10,6 +10,10 @@ circle, path {
   fill: none;
   stroke: black; }
 
+circle {
+  transform-origin: 50% 50%;
+  transform: rotate(-90deg); }
+
 path {
   transform: rotate(-90deg) translate(-50vh, 50vw); }
 
