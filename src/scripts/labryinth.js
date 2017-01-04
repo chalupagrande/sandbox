@@ -72,6 +72,28 @@ const master = new TimelineMax({
                     [0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0], //10:30 - 4:30
                   ]
         },
+    // MAZE 3
+        {
+          rings:  [
+                    ['4-c'], //inner most = 1
+                    ['0-b'], //2
+                    ['4-b'], //3
+                    ['0-b','8-a'], //4
+                    ['0-b'], //5
+                    ['6-a'], //6
+                    ['2-a'], //7
+                    ['2-b',], //8
+                    ['2-a','4-a','6-a','8-a'], //9
+                    ['0-b'] //10  OUTER MOST
+                  ],
+                  //lines             CENTER
+          lines:  [//1,2,3,4,5,6,7,8,9,-,-,9,8,7,6,5,4,3,2,1
+                    [1,0,0,0,0,1,1,1,1,0,0,0,0,1,0,0,0,0,1,0], //vertical
+                    [1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1], //horizontal
+                    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], //1:30 - 7:30
+                    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], //10:30 - 4:30
+                  ]
+        },
   ]
 var mazesCoded = [
   // MAZE 1
@@ -140,9 +162,31 @@ var mazesCoded = [
                   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], //10:30 - 4:30
                 ]
       },
+    // MAZE 4
+    // {
+    //   rings:  [
+    //             ['4-c'], //inner most = 1
+    //             ['0-b'], //2
+    //             ['4-b'], //3
+    //             ['0-b','8-a'], //4
+    //             ['0-b'], //5
+    //             ['6-a'], //6
+    //             ['2-a'], //7
+    //             ['2-b',], //8
+    //             ['2-a','4-a','6-a','8-a'], //9
+    //             ['0-b'] //10  OUTER MOST
+    //           ],
+    //           //lines             CENTER
+    //   lines:  [//1,2,3,4,5,6,7,8,9,-,-,9,8,7,6,5,4,3,2,1
+    //             [1,0,0,0,0,1,1,1,1,0,0,0,0,1,0,0,0,0,1,0], //vertical
+    //             [1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1], //horizontal
+    //             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], //1:30 - 7:30
+    //             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], //10:30 - 4:30
+    //           ]
+    // },
 
 ]
-var currentMaze = mazes[2]
+var currentMaze = mazes[0]
 
 //NOTE: hedgeWidth and gapSize in PIXELS
 var hedgeWidth = 10
@@ -286,16 +330,16 @@ function drawLabryinth(mazes, toBlack){
 function setupAnimations(mazes, ao){
   var animationTime = 0.5
   for(let animationIndex = 0; animationIndex < mazes.length; animationIndex++){
-    var tl = new TimelineLite()
+    var tl = new TimelineMax()
     tl.addLabel(`step-${animationIndex}`)
     for(let i = 0; i < ao.rings.length; i++){
       var ob = ao.rings[i]
       tl.to(ob.el, animationTime, {
         drawSVG: `${ob.position[animationIndex*2]}% ${ob.position[animationIndex*2+1]}%`,
-      }, `step-${animationIndex}`)
+      },`step-${animationIndex} += ${0.2*ob.ringIndex}`)
       tl.to(ob.el, animationTime*3, {
         drawSVG: `0% 100%`,
-      }, `step-${animationIndex} += 10`)
+      },`step-${animationIndex} += 5`)
     }
 
     master.add(tl)
@@ -311,7 +355,7 @@ function setupAnimations(mazes, ao){
   //setup
   var deb;
   function setup(){
-    window.addEventListener('resize', debounce(drawMaze.bind(null, currentMaze), 500))
+    // window.addEventListener('resize', debounce(drawMaze.bind(null, currentMaze), 500))
     setupSlider()
     deb = drawLabryinth(mazesCoded, false)
     console.log(deb)
