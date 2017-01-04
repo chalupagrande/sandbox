@@ -3,6 +3,9 @@
 //Global Vars
 var xmlns = 'http://www.w3.org/2000/svg';
 var svg = document.querySelector('svg');
+var master = new TimelineMax({
+  repeat: -1
+});
 //copy
 var mazes = [
 // MAZE 1
@@ -24,26 +27,6 @@ var mazes = [
   [0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0], //horizontal
   [1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0], //1:30 - 7:30
   [1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0]]
-},
-// MAZE 2
-{
-  rings: [[42], //inner most = 1
-  [1.6], //2
-  [43.5], //3
-  [0.5, 45, 95.1], //4
-  [33.5, 45, 88.3], //5
-  [71.7], //6
-  [62, 88], //7
-  [22.5, 35, 72.5], //8
-  [25.4, 38, 75.4, 97.8], //9
-  [50.4] //10
-  ],
-  //lines             CENTER
-  lines: [//1,2,3,4,5,6,7,8,9,-,-,9,8,7,6,5,4,3,2,1
-  [0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1], //vertical
-  [0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0], //horizontal
-  [0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0], //1:30 - 7:30
-  [1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0]]
 },
 // MAZE 3
 {
@@ -108,46 +91,6 @@ var mazesCoded = [
 },
 // MAZE 2
 {
-  rings: [[42], //inner most = 1
-  [1.6], //2
-  [43.5], //3
-  [0.5, 45, 95.1], //4
-  [33.5, 45, 88.3], //5
-  [71.7], //6
-  [62, 88], //7
-  [22.5, 35, 72.5], //8
-  [25.4, 38, 75.4, 97.8], //9
-  [50.4] //10
-  ],
-  //lines             CENTER
-  lines: [//1,2,3,4,5,6,7,8,9,-,-,9,8,7,6,5,4,3,2,1
-  [0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1], //vertical
-  [0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0], //horizontal
-  [0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0], //1:30 - 7:30
-  [1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0]]
-},
-// MAZE 3
-{
-  rings: [[42], //inner most = 1
-  [1.6], //2
-  [51.2], //3
-  [0.5, 95.1], //4
-  [0.8], //5
-  [71.7], //6
-  [22.2], //7
-  [25.5], //8
-  [22.8, 47.8, 72.8, 97.8], //9
-  [0.4] //10  OUTER MOST
-  ],
-  //lines             CENTER
-  lines: [//1,2,3,4,5,6,7,8,9,-,-,9,8,7,6,5,4,3,2,1
-  [1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0], //vertical
-  [1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1], //horizontal
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //1:30 - 7:30
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-},
-// MAZE 4
-{
   rings: [['0-b'], //inner most = 1
   ['8-a'], //2
   ['0-b', '4-b'], //3
@@ -165,8 +108,28 @@ var mazesCoded = [
   [0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1], //horizontal
   [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0], //1:30 - 7:30
   [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0]]
+},
+// MAZE 3
+{
+  rings: [['4-c'], //inner most = 1
+  ['0-b'], //2
+  ['4-b'], //3
+  ['0-b', '8-a'], //4
+  ['0-b'], //5
+  ['6-a'], //6
+  ['2-a'], //7
+  ['2-b'], //8
+  ['2-a', '4-a', '6-a', '8-a'], //9
+  ['0-b'] //10  OUTER MOST
+  ],
+  //lines             CENTER
+  lines: [//1,2,3,4,5,6,7,8,9,-,-,9,8,7,6,5,4,3,2,1
+  [1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0], //vertical
+  [1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1], //horizontal
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //1:30 - 7:30
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 }];
-var currentMaze = mazes[3];
+var currentMaze = mazes[2];
 
 //NOTE: hedgeWidth and gapSize in PIXELS
 var hedgeWidth = 10;
@@ -179,8 +142,6 @@ setup();
     where: 12o'clock = 0 ... 6 o'clock = 4
     first side = a ... second side = b
 */
-
-function drawRings() {}
 
 function findPercentFromPosition(location, radius) {
   var perc1,
@@ -204,17 +165,33 @@ function findPercentFromPosition(location, radius) {
       perc2 = round(position + gapPercent / 2);
     }
   } else {
-    perc1 = location;
-    perc2 = location + gapPercent;
+    perc1 = round(location);
+    perc2 = round(location + gapPercent);
   }
   return [perc1, perc2];
 }
 
-function createMazePercentsFromCodes(maze) {
+//for one maze
+function convertCodeToPercent(maze) {
   var rings = maze.rings;
-  for (var i = 0; i < rings.length; i++) {}
+  var result = [];
+  for (var i = 0; i < rings.length; i++) {
+    var n = [];
+    var l = rings[i].length;
+    for (var j = 0; j < l; j++) {
+      if (j == 0) n.push(0);
+      var position = rings[i][j];
+      var percents = findPercentFromPosition(position, (i + 1) * 2 * hedgeWidth);
+      n.push(percents[0]);
+      n.push(percents[1]);
+      if (j == l - 1) n.push(100);
+    }
+    result.push(n);
+  }
+  return result;
 }
 
+// findNum functions return the number of rings needed to draw appropriate circles.
 function findNumLines(mazes) {
   var result = [];
   for (var i = 0; i < 4; i++) {
@@ -229,16 +206,89 @@ function findNumLines(mazes) {
   return result;
 }
 
-function findNumRings(mazes) {
+function findNumRings(percentages) {
   var result = [];
-  for (var i = 0; i < mazes[0].rings.length; i++) {
+  for (var i = 0; i < percentages[0].length; i++) {
     var max = 0;
-    for (var j = 0; j < mazes.length; j++) {
-      max = Math.max(mazes[j].rings[i].length, max);
+    for (var j = 0; j < percentages.length; j++) {
+      max = Math.max(percentages[j][i].length, max);
     }
     result.push(max);
   }
   return result;
+}
+
+//where toBlack is a boolean determining if it fills completely in between mazes.
+function drawLabryinth(mazes, toBlack) {
+  var numMazes = mazes.length;
+  var result = {
+    rings: null,
+    lines: null
+  };
+
+  //rings
+  var numRings = mazes[0].rings.length;
+  var percentRings = [];
+  mazes.forEach(function (maze, i) {
+    percentRings.push(convertCodeToPercent(maze));
+  });
+  var numRingsArray = findNumRings(percentRings);
+  var ringAnimationData = [];
+  for (var i = 0; i < numRings; i++) {
+    var totalSegments = numRingsArray[i];
+    for (var j = 0; j < totalSegments / 2; j++) {
+
+      var ring = document.createElementNS(xmlns, 'circle');
+      ring.setAttribute('cx', '50%');
+      ring.setAttribute('cy', '50%');
+      ring.setAttribute('r', (i + 1) * hedgeWidth * 2);
+      ring.setAttribute('stroke-width', hedgeWidth);
+      ring.setAttribute('class', 'ring-' + i);
+      svg.append(ring);
+      var animationArray = [];
+      for (var k = 0; k < numMazes; k++) {
+        var perc1 = percentRings[k][i][j * 2];
+        var perc2 = percentRings[k][i][j * 2 + 1];
+        if (perc1 == undefined || perc2 == undefined) {
+          perc1 = 99.99;
+          perc2 = 100;
+        }
+        animationArray.push(perc1, perc2);
+      }
+
+      ringAnimationData.push({
+        el: ring,
+        ringIndex: i,
+        segmentIndex: j,
+        totalSegments: totalSegments / 2,
+        position: animationArray
+      });
+    }
+  }
+  result.rings = ringAnimationData;
+  //lines
+  return result;
+}
+/*
+  where ao is the an Animation Data Object returned by drawLabryinth
+*/
+function setupAnimations(mazes, ao) {
+  var animationTime = 0.5;
+  for (var animationIndex = 0; animationIndex < mazes.length; animationIndex++) {
+    var tl = new TimelineLite();
+    tl.addLabel('step-' + animationIndex);
+    for (var i = 0; i < ao.rings.length; i++) {
+      var ob = ao.rings[i];
+      tl.to(ob.el, animationTime, {
+        drawSVG: ob.position[animationIndex * 2] + '% ' + ob.position[animationIndex * 2 + 1] + '%'
+      }, 'step-' + animationIndex);
+      tl.to(ob.el, animationTime * 3, {
+        drawSVG: '0% 100%'
+      }, 'step-' + animationIndex + ' += 10');
+    }
+
+    master.add(tl);
+  }
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~
@@ -246,8 +296,13 @@ function findNumRings(mazes) {
 ~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 //setup
+var deb;
 function setup() {
   window.addEventListener('resize', debounce(drawMaze.bind(null, currentMaze), 500));
+  setupSlider();
+  deb = drawLabryinth(mazesCoded, false);
+  console.log(deb);
+  setupAnimations(mazesCoded, deb);
 }
 
 function debounce(fn, delay) {
@@ -271,10 +326,21 @@ function round(num) {
   return Math.round(num * m) / m;
 }
 
+function setupSlider() {
+  var input = document.querySelector('input[type=range]');
+  input.addEventListener('input', function () {
+    master.time(master.duration() / 500 * this.value);
+    master.pause();
+  });
+  var play = document.querySelector('.play');
+  play.addEventListener('click', function () {
+    master.play();
+  });
+}
 /* ~~~~~~~~~~~~~~~~~~~~~~~
     DRAW BASIC MAZE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-drawMaze(currentMaze);
+// drawMaze(currentMaze)
 function drawMaze(m) {
   var numRings = 10;
   var hedgeWidth = 10;
@@ -396,8 +462,8 @@ function drawMaze(m) {
     var gapSize = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 10;
 
     var d = data.rings[circleIndex];
-    var ring = d.el;
     var circ = d.circ;
+    var ring = d.el;
     var total = 0;
     var remainder = circ;
     for (var i = 0; i < percentages.length; i++) {
@@ -451,6 +517,6 @@ function drawMaze(m) {
     for (var j = 0; j < lineGaps.length; j++) {
       drawLineGaps(j, lineGaps[j], hedgeWidth * 2);
     }
-    MorphSVGPlugin.convertToPath('circle');
+    // MorphSVGPlugin.convertToPath('circle')
   }
 }
