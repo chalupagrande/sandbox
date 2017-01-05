@@ -372,9 +372,11 @@ function drawLabryinth(mazes) {
 function setupAnimations(mazes, ao) {
   var animationTime = 0.5;
   var solveTime = 2;
+
   for (var animationIndex = 0; animationIndex < mazes.length; animationIndex++) {
     var tl = new TimelineMax();
     tl.addLabel('step-' + animationIndex);
+
     for (var i = 0; i < ao.rings.length; i++) {
       var ob = ao.rings[i];
       tl.to(ob.el, animationTime, {
@@ -392,9 +394,6 @@ function setupAnimations(mazes, ao) {
       tl.to(ln.el, animationTime, {
         drawSVG: p1 + '% ' + p2 + '%'
       }, 'step-' + animationIndex);
-      // tl.to(ln.el, animationTime*3, {
-      //   drawSVG: `${p2/2}% ${p2/2}%`,
-      // },`step-${animationIndex} += ${solveTime}`)
     }
     master.add(tl);
   }
