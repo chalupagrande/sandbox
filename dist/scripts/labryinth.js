@@ -6,6 +6,7 @@ var svg = document.querySelector('svg');
 var master = new TimelineMax({
   repeat: -1
 });
+var animationObject;
 //copy
 var mazes = [
 // MAZE 1
@@ -210,6 +211,9 @@ function convertCodeToPercent(maze) {
   }
   return result;
 }
+function converLinesToPercents(lineIndex, total, orientation) {
+  var mazes = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : mazesCoded;
+}
 
 // findNum functions return the number of rings needed to draw appropriate circles.
 function findNumLines(mazes) {
@@ -238,16 +242,87 @@ function findNumRings(percentages) {
   return result;
 }
 
+function drawLines(radius, center) {
+  var mazes = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : mazesCoded;
+
+  var ls = [];
+  var numLinesArray = findNumLines(mazes);
+
+  for (var type = 0; type < numLinesArray.length; type++) {
+    for (var j = 0; j < numLinesArray[type]; j++) {
+      var x1, x2, y1, y2, run;
+      switch (type) {
+        case 0:
+          x1 = x2 = '50%';
+          y1 = center[1] - radius;
+          y2 = center[1] + radius;
+          break;
+        case 1:
+          y2 = y1 = '50%';
+          x1 = center[0] - radius;
+          x2 = center[0] + radius;
+          break;
+        case 2:
+          run = findDiagonals(radius);
+          y1 = center[1] - run;
+          y2 = center[1] + run;
+          x1 = center[0] + run;
+          x2 = center[0] - run;
+          break;
+        case 3:
+          run = findDiagonals(radius);
+          y1 = center[1] - run;
+          y2 = center[1] + run;
+          x1 = center[0] - run;
+          x2 = center[0] + run;
+          break;
+      }
+      var line = document.createElementNS(xmlns, 'line');
+      line.setAttribute('x1', x1);
+      line.setAttribute('y1', y1);
+      line.setAttribute('x2', x2);
+      line.setAttribute('y2', y2);
+      line.setAttribute('stroke-width', hedgeWidth);
+      svg.appendChild(line);
+
+      var positions = [];
+      for (var m = 0; m < mazes.length; m++) {
+        var lineArray = mazes[m].lines[type];
+        var n = findNth1(lineArray, j + 1);
+        if (n < 0) {
+          positions.push(100);
+          positions.push(100);
+        } else {
+          var multiplier = 1 / lineArray.length * 100;
+          var x = (n + 1) / lineArray.length * 100;
+          positions.push(x - multiplier);
+          positions.push(x);
+        }
+      }
+      ls.push({
+        el: line,
+        orientation: ['v', 'h', 'trbl', 'tlbr'][type],
+        index: j,
+        totalInIndex: numLinesArray[type],
+        positions: positions
+      });
+    }
+  }
+  return ls;
+}
+
 //where toBlack is a boolean determining if it fills completely in between mazes.
-function drawLabryinth(mazes, toBlack) {
-  var numMazes = mazes.length;
-  var result = {
+function drawLabryinth(mazes) {
+  var numRings = mazes[0].rings.length,
+      gRadius = numRings * hedgeWidth * 2,
+      gCenter = [window.innerWidth / 2, window.innerHeight / 2],
+      numMazes = mazes.length,
+      result = {
     rings: null,
     lines: null
   };
 
   //rings
-  var numRings = mazes[0].rings.length;
   var percentRings = [];
   mazes.forEach(function (maze, i) {
     percentRings.push(convertCodeToPercent(maze));
@@ -287,6 +362,8 @@ function drawLabryinth(mazes, toBlack) {
   }
   result.rings = ringAnimationData;
   //lines
+  result.lines = drawLines(gRadius, gCenter);
+  animationObject = result;
   return result;
 }
 /*
@@ -294,6 +371,7 @@ function drawLabryinth(mazes, toBlack) {
 */
 function setupAnimations(mazes, ao) {
   var animationTime = 0.5;
+  var solveTime = 2;
   for (var animationIndex = 0; animationIndex < mazes.length; animationIndex++) {
     var tl = new TimelineMax();
     tl.addLabel('step-' + animationIndex);
@@ -301,12 +379,23 @@ function setupAnimations(mazes, ao) {
       var ob = ao.rings[i];
       tl.to(ob.el, animationTime, {
         drawSVG: ob.position[animationIndex * 2] + '% ' + ob.position[animationIndex * 2 + 1] + '%'
-      }, 'step-' + animationIndex + ' += ' + 0.2 * ob.ringIndex);
+      }, 'step-' + animationIndex);
       tl.to(ob.el, animationTime * 3, {
         drawSVG: '0% 100%'
-      }, 'step-' + animationIndex + ' += 5');
+      }, 'step-' + animationIndex + ' += ' + solveTime);
     }
 
+    for (var j = 0; j < ao.lines.length; j++) {
+      var ln = ao.lines[j];
+      var p1 = ln.positions[animationIndex * 2];
+      var p2 = ln.positions[animationIndex * 2 + 1];
+      tl.to(ln.el, animationTime, {
+        drawSVG: p1 + '% ' + p2 + '%'
+      }, 'step-' + animationIndex);
+      // tl.to(ln.el, animationTime*3, {
+      //   drawSVG: `${p2/2}% ${p2/2}%`,
+      // },`step-${animationIndex} += ${solveTime}`)
+    }
     master.add(tl);
   }
 }
@@ -323,6 +412,17 @@ function setup() {
   deb = drawLabryinth(mazesCoded, false);
   console.log(deb);
   setupAnimations(mazesCoded, deb);
+}
+
+function findNth1(a, n) {
+  var found = 0;
+  for (var i = 0; i < a.length; i++) {
+    if (a[i] == 1) {
+      found += 1;
+      if (found == n) return i;
+    }
+  }
+  return -1;
 }
 
 function debounce(fn, delay) {
