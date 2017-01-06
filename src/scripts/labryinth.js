@@ -2,7 +2,7 @@
 const xmlns = 'http://www.w3.org/2000/svg';
 var svg = document.querySelector('svg')
 const master = new TimelineMax({
-  repeat: -1
+  repeat: -1,
 })
 var animationObject;
 //copy
@@ -373,7 +373,7 @@ function drawLabryinth(mazes){
         ring.setAttribute('r', (i+1)*hedgeWidth*2)
         ring.setAttribute('stroke-width',hedgeWidth)
         ring.setAttribute('class','ring-'+i)
-        svg.append(ring)
+        svg.appendChild(ring)
         var animationArray = []
         for(var k = 0; k < numMazes; k++){
           var perc1 = percentRings[k][i][j*2]

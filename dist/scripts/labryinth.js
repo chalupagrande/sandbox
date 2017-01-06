@@ -339,7 +339,7 @@ function drawLabryinth(mazes) {
       ring.setAttribute('r', (i + 1) * hedgeWidth * 2);
       ring.setAttribute('stroke-width', hedgeWidth);
       ring.setAttribute('class', 'ring-' + i);
-      svg.append(ring);
+      svg.appendChild(ring);
       var animationArray = [];
       for (var k = 0; k < numMazes; k++) {
         var perc1 = percentRings[k][i][j * 2];
