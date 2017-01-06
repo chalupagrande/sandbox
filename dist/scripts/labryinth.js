@@ -370,8 +370,8 @@ function drawLabryinth(mazes) {
   where ao is the an Animation Data Object returned by drawLabryinth
 */
 function setupAnimations(mazes, ao) {
-  var animationTime = 10;
-  var solveTime = 2;
+  var animationTime = 0.5;
+  var solveTime = 10;
 
   for (var animationIndex = 0; animationIndex < mazes.length; animationIndex++) {
     var tl = new TimelineMax();
