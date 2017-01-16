@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Color Modes</title>
+</head>
+<style>
+  img{
+    mix-blend-mode: multiply;
+    position: absolute;
+    transition: transform 0.5s;
+  }
+  .one{
+    transform: translate(-100px);
+  }
+  .two {
+    transform: translate(100px);
+  }
+  .three {
+    transform: translateY(-100px);
+  }
+  .four {
+    transform: translateY(100px);
+  }
+  .wrapper:hover img{
+    transform: translate(0px);
+  }
+
+
+</style>
+<body>
+  <div class="wrapper">
+    <img class="four" src="../resources/cmyk/c.png" alt="">
+    <img class="three" src="../resources/cmyk/m.png" alt="">
+    <img class="two" src="../resources/cmyk/y.png" alt="">
+    <img class="one" src="../resources/cmyk/k.png" alt="">
+  </div>
+
+</body>
+</html>
