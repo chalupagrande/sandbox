@@ -3,6 +3,7 @@ var cfg = {
   boxsize: 50,
   h: 600,
   w: 600,
+  speed: 0.6
 }
 
 var matrix = []
@@ -110,7 +111,7 @@ function setup(){
 }
 
 setup()
-animate(new TimelineLite(),5,5,5000)
+animate(new TimelineLite(),6,6,5000)
 
 function findMovementDirection(curX, curY, emptyX, emptyY){
   let x,y;
@@ -137,7 +138,7 @@ function animate(timeline, startX, startY, cycles){
     //animate
     let direction = findMovementDirection(ox,oy,x,y)
     let tl = new TimelineLite()
-    timeline.add(tl.to(temp, 0.05, {
+    timeline.add(tl.to(temp, cfg.speed, {
         x: `+= ${cfg.boxsize * direction[0]}`,
         y: `+= ${cfg.boxsize * direction[1]}`,
         ease: 'ease'
