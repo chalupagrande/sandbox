@@ -4,9 +4,10 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 var xmlns = 'http://www.w3.org/2000/svg';
 var cfg = {
-  boxsize: 50,
-  h: 600,
-  w: 600
+  boxsize: 100,
+  h: 1000,
+  w: 1000,
+  speed: 0.1
 };
 
 var matrix = [];
@@ -116,7 +117,7 @@ function setup() {
 }
 
 setup();
-animate(new TimelineLite(), 5, 5, 5000);
+animate(new TimelineLite(), 6, 6, 10000);
 
 function findMovementDirection(curX, curY, emptyX, emptyY) {
   var x = void 0,
@@ -147,7 +148,7 @@ function animate(timeline, startX, startY, cycles) {
     //animate
     var direction = findMovementDirection(ox, oy, x, y);
     var tl = new TimelineLite();
-    timeline.add(tl.to(temp, 0.05, {
+    timeline.add(tl.to(temp, cfg.speed, {
       x: '+= ' + cfg.boxsize * direction[0],
       y: '+= ' + cfg.boxsize * direction[1],
       ease: 'ease'

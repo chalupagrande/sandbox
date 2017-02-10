@@ -1,9 +1,9 @@
 let xmlns = 'http://www.w3.org/2000/svg'
 var cfg = {
-  boxsize: 50,
-  h: 600,
-  w: 600,
-  speed: 0.6
+  boxsize: 100,
+  h: 1000,
+  w: 1000,
+  speed: 0.1
 }
 
 var matrix = []
@@ -111,7 +111,7 @@ function setup(){
 }
 
 setup()
-animate(new TimelineLite(),6,6,5000)
+animate(new TimelineLite(),6,6,10000)
 
 function findMovementDirection(curX, curY, emptyX, emptyY){
   let x,y;
