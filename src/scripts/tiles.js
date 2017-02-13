@@ -1,9 +1,9 @@
 let xmlns = 'http://www.w3.org/2000/svg'
 var cfg = {
-  boxsize: 100,
-  h: 1000,
-  w: 1000,
-  speed: 0.1
+  boxsize: 50,
+  h: 600,
+  w: 600,
+  speed: 0.2
 }
 
 var matrix = []
