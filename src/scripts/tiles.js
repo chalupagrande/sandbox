@@ -1,9 +1,9 @@
 let xmlns = 'http://www.w3.org/2000/svg'
 var cfg = {
-  boxsize: 100,
-  h: 1000,
-  w: 1000,
-  speed: 0.1
+  boxsize: 50,
+  h: 600,
+  w: 600,
+  speed: 0.2
 }
 
 var matrix = []
@@ -84,6 +84,7 @@ function setup(){
   svg.setAttribute('width', cfg.w)
   svg.setAttribute('height', cfg.h)
 
+
   let cellsX = cfg.w / cfg.boxsize,
       cellsY = cfg.h / cfg.boxsize,
       numBlocks = cellsX * cellsY,
@@ -99,7 +100,9 @@ function setup(){
           el.setAttribute('height', cfg.boxsize)
           el.setAttribute('x', x*cfg.boxsize)
           el.setAttribute('y', y*cfg.boxsize)
-          el.style.fill = `hsla(${i * colorStep}, 100%, 50%, 1)`
+          el.style.fill = `hsla(${colorStep * i}, 100%, 50%, 1)`
+
+
 
       svg.appendChild(el)
 
