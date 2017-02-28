@@ -3,7 +3,7 @@ var cfg = {
   boxsize: 50,
   h: 300,
   w: 300,
-  delay: 300, // 0.3 second -- corresponds to css transition
+  delay: 500, // 0.3 second -- corresponds to css transition
 }
 
 var matrix = []

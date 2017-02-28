@@ -7,7 +7,7 @@ var cfg = {
   boxsize: 50,
   h: 300,
   w: 300,
-  delay: 300 };
+  delay: 500 };
 
 var matrix = [];
 
