@@ -1,27 +1,48 @@
 let xmlns = 'http://www.w3.org/2000/svg'
 var cfg = {
-  boxsize: 50,
-  h: 300,
-  w: 300,
+  boxsize: 100,
+  h: 600,
+  w: 600,
   delay: 300, // 0.3 second -- corresponds to css transition
 }
 
 let picasso = [
-  "https://upload.wikimedia.org/wikipedia/en/8/8d/Pablo_Picasso,_1905,_Au_Lapin_Agile_(At_the_Lapin_Agile),_oil_on_canvas,_99.1_x_100.3_cm,_Metropolitan_Museum_of_Art.jpg",
-  "https://www.vanartgallery.bc.ca/the_exhibitions/images/picasso.jpg",
-  "https://uploads2.wikiart.org/images/pablo-picasso/self-portrait-1907.jpg",
-  "https://upload.wikimedia.org/wikipedia/en/1/1c/Pablo_Picasso,_1910,_Girl_with_a_Mandolin_(Fanny_Tellier),_oil_on_canvas,_100.3_x_73.6_cm,_Museum_of_Modern_Art_New_York..jpg",
-  "http://www.arthistoryarchive.com/arthistory/cubism/images/PabloPicasso-Weeping-Woman-with-Handkerchief-1937.jpg",
-  "https://s-media-cache-ak0.pinimg.com/736x/5f/c9/4f/5fc94f54df98d50bfae9b1807f3c5272.jpg",
-  "http://www.kunst.wuerth.com/media/pictures/kunst/kh/picasso/9222_res500v.jpg",
-  "https://i1.wp.com/www.guggenheim.org/wp-content/uploads/1931/01/82.2947_ph_web.jpg?fit=1200%2C962&ssl=1",
-  "http://historyofinformation.com/images/picasso_guernica.jpg",
-  "http://www.pablopicasso.org/images/paintings/avignon.jpg",
-  "http://www.pablopicasso.org/images/paintings/three-musicians.jpg",
-  "http://www.pablopicasso.org/images/paintings/ma-jolie.jpg",
+  "http://www.pablopicasso.org/images/paintings/self-portrait.jpg",
   "http://www.pablopicasso.org/images/paintings/blue-nude.jpg",
+  "http://www.pablopicasso.org/images/paintings/the-old-guitarist.jpg",
   "http://www.pablopicasso.org/images/paintings/boy-with-pipe.jpg",
-  "http://www.pablopicasso.org/images/paintings/woman-with-a-flower.jpg"
+  "http://www.pablopicasso.org/images/paintings/boy-leading-a-horse.jpg",
+  "http://www.pablopicasso.org/images/paintings/avignon.jpg",
+  "http://www.pablopicasso.org/images/paintings/maternity.jpg",
+  "http://www.pablopicasso.org/images/paintings/girl-with-mandolin.jpg",
+  "http://www.pablopicasso.org/images/paintings/portrait-of-ambroise-vollard.jpg",
+  "http://www.pablopicasso.org/images/paintings/ma-jolie.jpg",
+  "http://www.pablopicasso.org/images/paintings/bathers.jpg",
+  "http://www.pablopicasso.org/images/paintings/three-musicians.jpg",
+  "http://www.pablopicasso.org/images/paintings/two-women-running-on-the-beach.jpg",
+  "http://www.pablopicasso.org/images/paintings/three-dancers.jpg",
+  "http://www.pablopicasso.org/images/paintings/woman-in-an-armchair.jpg",
+  "http://www.pablopicasso.org/images/paintings/crucifixion.jpg",
+  "http://www.pablopicasso.org/images/paintings/figures-at-the-seaside.jpg",
+  "http://www.pablopicasso.org/images/paintings/girl-before-a-mirror.jpg",
+  "http://www.pablopicasso.org/images/paintings/the-dream.jpg",
+  "http://www.pablopicasso.org/images/paintings/nude-green-leaves-and-bust.jpg",
+  "http://www.pablopicasso.org/images/paintings/woman-with-a-flower.jpg",
+  "http://www.pablopicasso.org/images/paintings/bull-fight.jpg",
+  "http://www.pablopicasso.org/images/paintings/guernica.jpg",
+  "http://www.pablopicasso.org/images/paintings/the-weeping-woman.jpg",
+  "http://www.pablopicasso.org/images/paintings/seated-woman.jpg",
+  "http://www.pablopicasso.org/images/paintings/maya-with-her-doll.jpg",
+  "http://www.pablopicasso.org/images/paintings/dora-maar-au-chat.jpg",
+  "http://www.pablopicasso.org/images/paintings/joie-de-vivre.jpg",
+  "http://www.pablopicasso.org/images/paintings/massacre-in-korea.jpg",
+  "http://www.pablopicasso.org/images/paintings/mediterranean-landscape.jpg",
+  "http://www.pablopicasso.org/images/paintings/jacqueline-with-flowers.jpg",
+  "http://www.pablopicasso.org/images/paintings/don-quixote.jpg",
+  "http://www.pablopicasso.org/images/paintings/the-studio-at-la-californie.jpg",
+  "http://www.pablopicasso.org/images/paintings/girl-in-a-chemise.jpg",
+  "http://www.pablopicasso.org/images/paintings/harlequin-with-glass.jpg",
+  "http://www.pablopicasso.org/images/paintings/la-lecture.jpg",
 ]
 
 var matrix = []
@@ -113,10 +134,13 @@ function setup(){
 
           mask.appendChild(rect)
       let image = document.createElementNS(xmlns, 'image')
-          image.setAttribute('src', picasso[i])
-          image.setAttribute('width', 600)
-          image.setAttribute('height', 600)
+          image.setAttribute('href', picasso[i])
+          image.setAttribute('width', cfg.w)
+          image.setAttribute('height', cfg.h)
+          image.setAttribute('mask',`url(#mask-${x}-${y})`)
           svg.appendChild(image)
+
+          //<image xlink:href="../resources/basquiat/1.jpg" width="600" height="600"  alt="" height='600' width='600' mask="url(#mask-4-1)"></image>
 
 
       // colored squares
@@ -171,7 +195,11 @@ function animate(startX, startY){
       let nx = obj.x + (cfg.boxsize * direction[0])
       let ny = obj.y + (cfg.boxsize * direction[1])
 
-      temp.style.transform = `translate(${obj.x + direction[0] * cfg.boxsize}px, ${obj.y + direction[1] * cfg.boxsize}px)`
+      // temp.style.transform = `translate(${obj.x + direction[0] * cfg.boxsize}px, ${obj.y + direction[1] * cfg.boxsize}px)`
+      TweenMax.to(temp, cfg.delay / 1000, {
+        x: obj.x + direction[0] * cfg.boxsize,
+        y: obj.y + direction[1] * cfg.boxsize,
+      })
 
       obj.x = nx
       obj.y = ny
