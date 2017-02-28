@@ -12,9 +12,9 @@ gulp.task('serve', ['compile-sass', 'compile-js'], function(){
     }
   })
 
-  gulp.watch(['src/scripts/**/*.js'] , ['compile-js'])
-  gulp.watch(['src/styles/**/*.scss'] , ['compile-sass'])
-  gulp.watch(['src/**/*.js', 'src/**/*.scss', '*.html', 'views/*.html']).on('change', browserSync.reload)
+  gulp.watch(['src/scripts/**/*.js'] , ['compile-js', browserSync.reload])
+  gulp.watch(['src/styles/**/*.scss'] , ['compile-sass', browserSync.reload])
+  gulp.watch(['*.html', 'views/*.html']).on('change', browserSync.reload)
 })
 
 gulp.task('compile-js', function(){

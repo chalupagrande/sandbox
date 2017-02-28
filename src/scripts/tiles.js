@@ -1,14 +1,16 @@
 let xmlns = 'http://www.w3.org/2000/svg'
 var cfg = {
   boxsize: 50,
-  h: 600,
-  w: 600,
-  speed: 0.2
+  h: 300,
+  w: 300,
+  delay: 300, // 0.3 second -- corresponds to css transition
 }
 
 var matrix = []
 
 
+setup()
+animate(0,0)
 
 function createMatrix() {
   let cellsX = cfg.w / cfg.boxsize,
@@ -64,21 +66,6 @@ function findFreePosition(x,y){
 
 }
 
-//where startX & startY are an empty space that can be moved to
-function start(startX, startY, cycles){
-  set(startX,startY, 0)
-  let x = startX, y = startY, i = 0;
-
-  for(i;i < cycles;i++ ){
-    let [nx,ny] = findMoveableTilePosition(x,y)
-    set(nx,ny,0)
-    set(x,y,i+1)
-
-    x = nx
-    y = ny
-  }
-}
-
 function setup(){
   let svg = document.querySelector('svg');
   svg.setAttribute('width', cfg.w)
@@ -94,24 +81,42 @@ function setup(){
     matrix.push([])
     for(let y = 0; y < cellsY; y++){
 
+      // let defs = document.querySelector('defs')
+      // let mask = document.createElementNS(xmlns, 'mask')
+      //     mask.setAttribute('id', `mask-${x}-${y}`)
+      //     defs.appendChild(mask)
+      // let rect = document.createElementNS(xmlns, 'rect')
+      //     rect.setAttribute('width', cfg.boxsize)
+      //     rect.setAttribute('height', cfg.boxsize)
+      //     rect.setAttribute('x', x * cfg.boxsize)
+      //     rect.setAttribute('y', y * cfg.boxsize)
+      //     rect.style.fill = `white`
+
+      //     mask.appendChild(rect)
+
+
+      // colored squares
       let el = document.createElementNS(xmlns, 'rect')
+          el.setAttribute('class', 'tile')
           el.setAttribute('width', cfg.boxsize)
           el.setAttribute('height', cfg.boxsize)
-          el.setAttribute('x', x*cfg.boxsize)
-          el.setAttribute('y', y*cfg.boxsize)
+          el.setAttribute('x', x * cfg.boxsize)
+          el.setAttribute('y', y * cfg.boxsize)
           el.style.fill = `hsla(${i * colorStep}, 100%, 50%, 1)`
 
       svg.appendChild(el)
+      matrix[x].push({
+        // el: rect,
+        el: el,
+        x: 0,
+        y: 0
+      })
 
-      matrix[x].push(el)
       i++
     }
   }
   return matrix
 }
-
-setup()
-animate(new TimelineLite(),6,6,10000)
 
 function findMovementDirection(curX, curY, emptyX, emptyY){
   let x,y;
@@ -122,40 +127,37 @@ function findMovementDirection(curX, curY, emptyX, emptyY){
   return [x,y]
 }
 
-function animate(timeline, startX, startY, cycles){
+function animate(startX, startY){
+
   //clear 1 square
-  get(startX, startY).remove()
-  set(startX,startY, 0)
-  let x = startX, y = startY;
-  for(let i = 0;i < cycles;i++ ){
-    // debugger;
-    //change the matrix
-    let [ox,oy] = findMoveableTilePosition(x,y)
-    let temp = get(ox,oy)
-    set(ox,oy, 0)
-    set(x,y, temp)
+  get(startX, startY).el.remove()
+  set(startX, startY, 0)
+  var x = startX, y = startY;
 
-    //animate
-    let direction = findMovementDirection(ox,oy,x,y)
-    let tl = new TimelineLite()
-    timeline.add(tl.to(temp, cfg.speed, {
-        x: `+= ${cfg.boxsize * direction[0]}`,
-        y: `+= ${cfg.boxsize * direction[1]}`,
-        ease: 'ease'
-    }))
-    x = ox
-    y = oy
+  let step = function(){
+    setTimeout(()=>{
+      //change the matrix
+      let [ox,oy] = findMoveableTilePosition(x,y)
+      let obj = get(ox,oy)
+      let temp = obj.el
+      set(ox,oy, 0)
+
+      //animate
+      let direction = findMovementDirection(ox,oy,x,y)
+      let nx = obj.x + (cfg.boxsize * direction[0])
+      let ny = obj.y + (cfg.boxsize * direction[1])
+
+      temp.style.transform = `translate(${obj.x + direction[0] * cfg.boxsize}px, ${obj.y + direction[1] * cfg.boxsize}px)`
+
+      obj.x = nx
+      obj.y = ny
+      set(x,y, obj)
+      x = ox
+      y = oy
+
+      requestAnimationFrame(step)
+    }, cfg.delay)
   }
-}
+  step()
 
-// let tl = new TimelineLite({
-//   overwrite: 'none'
-// })
-// let temp = get(4,4)
-// console.log(temp.getBBox().x - 40)
-// tl.to(temp,1, {
-//   x: -40,
-// }).to(temp,1, {
-//   x: "+=40"
-// })
-// console.log(temp)
+}

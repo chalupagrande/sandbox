@@ -14,13 +14,24 @@
       padding: 0;
     }
 
+    .tile {
+      transform: translate(0px,0px);
+
+      transition: transform 0.3s ease-in-out;
+      -webkit-transition: transform 0.3s ease-in-out;
+      -moz-transition: transform 0.3s ease-in-out;
+      -o-transition: transform 0.3s ease-in-out;
+    }
+
   </style>
 </head>
 <body>
   <svg>
+    <defs id="masks">
+
+    </defs>
   </svg>
 
-<script src="../resources/TweenMax.js"></script>
 <script src="../dist/scripts/tiles.js"></script>
 </body>
 </html>
