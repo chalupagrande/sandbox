@@ -6,44 +6,12 @@ var cfg = {
   delay: 300, // 0.3 second -- corresponds to css transition
 }
 
-let picasso = [
-  "http://www.pablopicasso.org/images/paintings/self-portrait.jpg",
-  "http://www.pablopicasso.org/images/paintings/blue-nude.jpg",
-  "http://www.pablopicasso.org/images/paintings/the-old-guitarist.jpg",
-  "http://www.pablopicasso.org/images/paintings/boy-with-pipe.jpg",
-  "http://www.pablopicasso.org/images/paintings/boy-leading-a-horse.jpg",
-  "http://www.pablopicasso.org/images/paintings/avignon.jpg",
-  "http://www.pablopicasso.org/images/paintings/maternity.jpg",
-  "http://www.pablopicasso.org/images/paintings/girl-with-mandolin.jpg",
-  "http://www.pablopicasso.org/images/paintings/portrait-of-ambroise-vollard.jpg",
-  "http://www.pablopicasso.org/images/paintings/ma-jolie.jpg",
-  "http://www.pablopicasso.org/images/paintings/bathers.jpg",
-  "http://www.pablopicasso.org/images/paintings/three-musicians.jpg",
-  "http://www.pablopicasso.org/images/paintings/two-women-running-on-the-beach.jpg",
-  "http://www.pablopicasso.org/images/paintings/three-dancers.jpg",
-  "http://www.pablopicasso.org/images/paintings/woman-in-an-armchair.jpg",
-  "http://www.pablopicasso.org/images/paintings/crucifixion.jpg",
-  "http://www.pablopicasso.org/images/paintings/figures-at-the-seaside.jpg",
-  "http://www.pablopicasso.org/images/paintings/girl-before-a-mirror.jpg",
-  "http://www.pablopicasso.org/images/paintings/the-dream.jpg",
-  "http://www.pablopicasso.org/images/paintings/nude-green-leaves-and-bust.jpg",
-  "http://www.pablopicasso.org/images/paintings/woman-with-a-flower.jpg",
-  "http://www.pablopicasso.org/images/paintings/bull-fight.jpg",
-  "http://www.pablopicasso.org/images/paintings/guernica.jpg",
-  "http://www.pablopicasso.org/images/paintings/the-weeping-woman.jpg",
-  "http://www.pablopicasso.org/images/paintings/seated-woman.jpg",
-  "http://www.pablopicasso.org/images/paintings/maya-with-her-doll.jpg",
-  "http://www.pablopicasso.org/images/paintings/dora-maar-au-chat.jpg",
-  "http://www.pablopicasso.org/images/paintings/joie-de-vivre.jpg",
-  "http://www.pablopicasso.org/images/paintings/massacre-in-korea.jpg",
-  "http://www.pablopicasso.org/images/paintings/mediterranean-landscape.jpg",
-  "http://www.pablopicasso.org/images/paintings/jacqueline-with-flowers.jpg",
-  "http://www.pablopicasso.org/images/paintings/don-quixote.jpg",
-  "http://www.pablopicasso.org/images/paintings/the-studio-at-la-californie.jpg",
-  "http://www.pablopicasso.org/images/paintings/girl-in-a-chemise.jpg",
-  "http://www.pablopicasso.org/images/paintings/harlequin-with-glass.jpg",
-  "http://www.pablopicasso.org/images/paintings/la-lecture.jpg",
-]
+let source = []
+let gender = ['men', 'women']
+for(var i = 0; i < 36; i++){
+  source.push(`https://randomuser.me/api/portraits/${gender[Math.round(Math.random())]}/${i+1}.jpg`)
+}
+
 
 var matrix = []
 
@@ -134,7 +102,7 @@ function setup(){
 
           mask.appendChild(rect)
       let image = document.createElementNS(xmlns, 'image')
-          image.setAttribute('href', picasso[i])
+          image.setAttribute('href', source[i])
           image.setAttribute('width', cfg.w)
           image.setAttribute('height', cfg.h)
           image.setAttribute('mask',`url(#mask-${x}-${y})`)

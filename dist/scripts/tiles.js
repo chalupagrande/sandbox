@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
@@ -9,7 +9,11 @@ var cfg = {
   w: 600,
   delay: 300 };
 
-var picasso = ["http://www.pablopicasso.org/images/paintings/self-portrait.jpg", "http://www.pablopicasso.org/images/paintings/blue-nude.jpg", "http://www.pablopicasso.org/images/paintings/the-old-guitarist.jpg", "http://www.pablopicasso.org/images/paintings/boy-with-pipe.jpg", "http://www.pablopicasso.org/images/paintings/boy-leading-a-horse.jpg", "http://www.pablopicasso.org/images/paintings/avignon.jpg", "http://www.pablopicasso.org/images/paintings/maternity.jpg", "http://www.pablopicasso.org/images/paintings/girl-with-mandolin.jpg", "http://www.pablopicasso.org/images/paintings/portrait-of-ambroise-vollard.jpg", "http://www.pablopicasso.org/images/paintings/ma-jolie.jpg", "http://www.pablopicasso.org/images/paintings/bathers.jpg", "http://www.pablopicasso.org/images/paintings/three-musicians.jpg", "http://www.pablopicasso.org/images/paintings/two-women-running-on-the-beach.jpg", "http://www.pablopicasso.org/images/paintings/three-dancers.jpg", "http://www.pablopicasso.org/images/paintings/woman-in-an-armchair.jpg", "http://www.pablopicasso.org/images/paintings/crucifixion.jpg", "http://www.pablopicasso.org/images/paintings/figures-at-the-seaside.jpg", "http://www.pablopicasso.org/images/paintings/girl-before-a-mirror.jpg", "http://www.pablopicasso.org/images/paintings/the-dream.jpg", "http://www.pablopicasso.org/images/paintings/nude-green-leaves-and-bust.jpg", "http://www.pablopicasso.org/images/paintings/woman-with-a-flower.jpg", "http://www.pablopicasso.org/images/paintings/bull-fight.jpg", "http://www.pablopicasso.org/images/paintings/guernica.jpg", "http://www.pablopicasso.org/images/paintings/the-weeping-woman.jpg", "http://www.pablopicasso.org/images/paintings/seated-woman.jpg", "http://www.pablopicasso.org/images/paintings/maya-with-her-doll.jpg", "http://www.pablopicasso.org/images/paintings/dora-maar-au-chat.jpg", "http://www.pablopicasso.org/images/paintings/joie-de-vivre.jpg", "http://www.pablopicasso.org/images/paintings/massacre-in-korea.jpg", "http://www.pablopicasso.org/images/paintings/mediterranean-landscape.jpg", "http://www.pablopicasso.org/images/paintings/jacqueline-with-flowers.jpg", "http://www.pablopicasso.org/images/paintings/don-quixote.jpg", "http://www.pablopicasso.org/images/paintings/the-studio-at-la-californie.jpg", "http://www.pablopicasso.org/images/paintings/girl-in-a-chemise.jpg", "http://www.pablopicasso.org/images/paintings/harlequin-with-glass.jpg", "http://www.pablopicasso.org/images/paintings/la-lecture.jpg"];
+var source = [];
+var gender = ['men', 'women'];
+for (var i = 0; i < 36; i++) {
+  source.push('https://randomuser.me/api/portraits/' + gender[Math.round(Math.random())] + '/' + (i + 1) + '.jpg');
+}
 
 var matrix = [];
 
@@ -85,21 +89,21 @@ function setup() {
 
       var defs = document.querySelector('defs');
       var mask = document.createElementNS(xmlns, 'mask');
-      mask.setAttribute('id', "mask-" + x + "-" + y);
+      mask.setAttribute('id', 'mask-' + x + '-' + y);
       defs.appendChild(mask);
       var rect = document.createElementNS(xmlns, 'rect');
       rect.setAttribute('width', cfg.boxsize);
       rect.setAttribute('height', cfg.boxsize);
       rect.setAttribute('x', x * cfg.boxsize);
       rect.setAttribute('y', y * cfg.boxsize);
-      rect.style.fill = "white";
+      rect.style.fill = 'white';
 
       mask.appendChild(rect);
       var image = document.createElementNS(xmlns, 'image');
-      image.setAttribute('href', picasso[i]);
+      image.setAttribute('href', source[i]);
       image.setAttribute('width', cfg.w);
       image.setAttribute('height', cfg.h);
-      image.setAttribute('mask', "url(#mask-" + x + "-" + y + ")");
+      image.setAttribute('mask', 'url(#mask-' + x + '-' + y + ')');
       svg.appendChild(image);
 
       //<image xlink:href="../resources/basquiat/1.jpg" width="600" height="600"  alt="" height='600' width='600' mask="url(#mask-4-1)"></image>
