@@ -9,11 +9,12 @@ var cfg = {
   w: 600,
   delay: 300 };
 
-var source = [];
-var gender = ['men', 'women'];
-for (var i = 0; i < 36; i++) {
-  source.push('https://randomuser.me/api/portraits/' + gender[Math.round(Math.random())] + '/' + (i + 1) + '.jpg');
-}
+// let source = []
+// let gender = ['men', 'women']
+// for(var i = 0; i < 36; i++){
+//   source.push(`https://randomuser.me/api/portraits/${gender[Math.round(Math.random())]}/${i+1}.jpg`)
+// }
+
 
 var matrix = [];
 
@@ -87,41 +88,41 @@ function setup() {
     matrix.push([]);
     for (var y = 0; y < cellsY; y++) {
 
-      var defs = document.querySelector('defs');
-      var mask = document.createElementNS(xmlns, 'mask');
-      mask.setAttribute('id', 'mask-' + x + '-' + y);
-      defs.appendChild(mask);
-      var rect = document.createElementNS(xmlns, 'rect');
-      rect.setAttribute('width', cfg.boxsize);
-      rect.setAttribute('height', cfg.boxsize);
-      rect.setAttribute('x', x * cfg.boxsize);
-      rect.setAttribute('y', y * cfg.boxsize);
-      rect.style.fill = 'white';
+      // let defs = document.querySelector('defs')
+      // let mask = document.createElementNS(xmlns, 'mask')
+      //     mask.setAttribute('id', `mask-${x}-${y}`)
+      //     defs.appendChild(mask)
+      // let rect = document.createElementNS(xmlns, 'rect')
+      //     rect.setAttribute('width', cfg.boxsize)
+      //     rect.setAttribute('height', cfg.boxsize)
+      //     rect.setAttribute('x', x * cfg.boxsize)
+      //     rect.setAttribute('y', y * cfg.boxsize)
+      //     rect.style.fill = `white`
 
-      mask.appendChild(rect);
-      var image = document.createElementNS(xmlns, 'image');
-      image.setAttribute('href', source[i]);
-      image.setAttribute('width', cfg.w);
-      image.setAttribute('height', cfg.h);
-      image.setAttribute('mask', 'url(#mask-' + x + '-' + y + ')');
-      svg.appendChild(image);
+      //     mask.appendChild(rect)
+      // let image = document.createElementNS(xmlns, 'image')
+      //     image.setAttribute('href', source[i])
+      //     image.setAttribute('width', cfg.w)
+      //     image.setAttribute('height', cfg.h)
+      //     image.setAttribute('mask',`url(#mask-${x}-${y})`)
+      //     svg.appendChild(image)
 
       //<image xlink:href="../resources/basquiat/1.jpg" width="600" height="600"  alt="" height='600' width='600' mask="url(#mask-4-1)"></image>
 
 
       // colored squares
-      // let el = document.createElementNS(xmlns, 'rect')
-      //     el.setAttribute('class', 'tile')
-      //     el.setAttribute('width', cfg.boxsize)
-      //     el.setAttribute('height', cfg.boxsize)
-      //     el.setAttribute('x', x * cfg.boxsize)
-      //     el.setAttribute('y', y * cfg.boxsize)
-      //     el.style.fill = `hsla(${i * colorStep}, 100%, 50%, 1)`
+      var el = document.createElementNS(xmlns, 'rect');
+      el.setAttribute('class', 'tile');
+      el.setAttribute('width', cfg.boxsize);
+      el.setAttribute('height', cfg.boxsize);
+      el.setAttribute('x', x * cfg.boxsize);
+      el.setAttribute('y', y * cfg.boxsize);
+      el.style.fill = 'hsla(' + i * colorStep + ', 100%, 50%, 1)';
 
-      // svg.appendChild(el)
+      svg.appendChild(el);
       matrix[x].push({
-        el: rect,
-        // el: el,
+        // el: rect,
+        el: el,
         x: 0,
         y: 0
       });
@@ -165,11 +166,11 @@ function animate(startX, startY) {
       var nx = obj.x + cfg.boxsize * direction[0];
       var ny = obj.y + cfg.boxsize * direction[1];
 
-      // temp.style.transform = `translate(${obj.x + direction[0] * cfg.boxsize}px, ${obj.y + direction[1] * cfg.boxsize}px)`
-      TweenMax.to(temp, cfg.delay / 1000, {
-        x: obj.x + direction[0] * cfg.boxsize,
-        y: obj.y + direction[1] * cfg.boxsize
-      });
+      temp.style.transform = 'translate(' + (obj.x + direction[0] * cfg.boxsize) + 'px, ' + (obj.y + direction[1] * cfg.boxsize) + 'px)';
+      // TweenMax.to(temp, cfg.delay / 1000, {
+      //   x: obj.x + direction[0] * cfg.boxsize,
+      //   y: obj.y + direction[1] * cfg.boxsize,
+      // })
 
       obj.x = nx;
       obj.y = ny;
